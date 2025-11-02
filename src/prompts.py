@@ -10,7 +10,7 @@ The question should be in this following topics:
 5. Basic Looping (while loop), Debugging looping
 6. For-loop, Nested Looping
 7. Nested Looping and Sorting
-8. Functions, Variable Scope
+8. Functions, Variable Scope (except pointer)
 9. Advanced Function Concepts
 
 The question should be tricky (misleading students by indentation, unusual code style). 
