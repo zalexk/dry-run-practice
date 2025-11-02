@@ -32,18 +32,22 @@ client = OpenAI(
     base_url = st.secrets["BASE_URL"]
 )
 
-try:
-    response = call_llm(prompts.question_prompt).split("|||")
-except:
-    st.error("Error occurs. Please Try Again")
+def generate_question():
+    try:
+        response = call_llm(prompts.question_prompt).split("|||")
+    except:
+        st.error("Error occurs. Please Try Again")
 
-code = response[0]
-ans = response[1]
+    st.session_state["code"] = response[0]
+    st.session_state["ans"] = response[1]
+
+if ("code" not in st.session_state) or ("ans" not in st.session_state):
+    generate_question()
 
 question_col, ans_col = st.columns(2)
 with question_col:
     st.header("Code")
-    st.markdown(code)
+    st.markdown(st.session_state["code"])
 
 with ans_col:
     with st.form("User_Ans"):
@@ -52,7 +56,7 @@ with ans_col:
         submitted = st.form_submit_button("Submit")
         
     if submitted:
-        if user_ans.strip() == ans.strip():
+        if user_ans.strip() == st.session_state["ans"].strip():
             st.write("Correct")
         else:
             st.write(f"""
@@ -60,14 +64,14 @@ with ans_col:
 
 The correct answer is 
 ```
-{ans}
+{st.session_state["ans"]}
 ```
 """)
             # if st.button("Need Help?"):
             #     prompt = prompts.explanation_prompt.format(
-            #         question = code,
+            #         question = st.session_state["code"],
             #         user_input = user_ans,
-            #         corr_ans = ans
+            #         corr_ans = st.session_state["ans"]
             #     )
                 
             #     #try:
@@ -76,9 +80,10 @@ The correct answer is
             #     #     st.error("Error occurs. Please Try Again")
             #     st.write(response)
                 
-            #     url = f"https://pythontutor.com/render.html#code={encode_uri_component(code)}&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=c_gcc9.3.0&rawInputLstJSON=%5B%5D&textReferences=false"
+            #     url = f"https://pythontutor.com/render.html#code={encode_uri_component(st.session_state["code"])}&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=c_gcc9.3.0&rawInputLstJSON=%5B%5D&textReferences=false"
 
             #     st.link_button("Visual Debugger", url)
 
+    
 if st.button("Regenerate"):
-    st.rerun() # Regenerate a new question
+    generate_question()
