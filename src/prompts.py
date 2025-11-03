@@ -34,7 +34,8 @@ int main() {
 ## Output Format
 You should output 1 question and the corresponding answer.
 The question should be only consist of code in C Language and remove all the comment. No any explanation should be provided.
-The code should output in markdown format (i.e. wrapping by ```)
+The code should output in markdown format (i.e. wrapping by ```). 
+If there is `\n` in the code, pls use `\\n` to prevent wrongly interpret.
 The answer should be exactly what the program output. Remove all the explanation.
 The output format should be as follow: "<code>|||<ans>", separated by "|||"
 
@@ -43,13 +44,13 @@ The output format should be as follow: "<code>|||<ans>", separated by "|||"
 #include <stdio.h>
 int main() {
     int a = 2, b = 3, c = -1;
-    if (c) printf("%d\n",!c);
+    if (c) printf("%d\\n",!c);
     if (a/b);
-        printf("X\n");
+        printf("X\\n");
         if (b=0)
-            printf("Y\n");
+            printf("Y\\n");
     else
-        printf("%d\n",b);  
+        printf("%d\\n",b);  
 }
 ```
 |||
